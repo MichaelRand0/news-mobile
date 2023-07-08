@@ -1,55 +1,40 @@
 import { create } from 'apisauce'
-import { useEffect, useState } from 'react'
-import { useRedux } from './redux'
-import { AxiosRequestConfig } from 'axios'
+import { useState } from 'react'
+import urls from '~constants/urls'
+import { Endpoint } from '~models/query'
 
-type Endpoint = {
-  url: string
-  method: 'GET' | 'POST' | 'DELETE' | 'PUT'
-}
-
-export const useQuery = (endpoint: Endpoint, params?: AxiosRequestConfig<any>) => {
+export const useQuery = () => {
   const [data, setData] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const { getStates } = useRedux()
-  const { auth } = getStates()
-  const { user } = auth
-  const { url, method } = endpoint
-
   const api = create({
-    baseURL: 'http://lzone.secret-agents.ru',
-    headers: {
-      Authorization: user?.token,
-    },
+    baseURL: urls.base,
   })
 
-  const fetchData = async () => {
+  const fetchData = async (endpoint: Endpoint, params?: any) => {
+    const { url, method } = endpoint
     setIsLoading(true)
     try {
       const res = await api.any({ method, url, params })
       setData(res?.data)
       setIsLoading(false)
+      return res?.data
     } catch (err: any) {
       setError(err)
       console.error('there is an error', err)
-    } finally {
-      setIsLoading(false)
+      return {
+        data: {
+          success: false,
+          error: err,
+        },
+      }
     }
-  }
-
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  const refetch = async () => {
-    fetchData()
   }
 
   return {
     data,
     isLoading,
     error,
-    refetch,
+    fetchData,
   }
 }

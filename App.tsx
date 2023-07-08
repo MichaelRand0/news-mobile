@@ -10,6 +10,7 @@ import Home from '~modules/Home'
 import ButtonMain from '~shared/buttons/ButtonMain'
 import Auth from '~modules/Auth'
 import { useRedux } from '~hooks/redux'
+import Modal from '~shared/modals/Modal'
 
 const Layout = () => {
   const Stack = createNativeStackNavigator()
@@ -51,6 +52,7 @@ function App(): JSX.Element {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
+        <Modal />
         <Layout />
       </SafeAreaProvider>
     </Provider>

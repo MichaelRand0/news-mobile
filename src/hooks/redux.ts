@@ -1,10 +1,12 @@
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 import { authActions } from '~redux/slices/authSlice'
+import { modalActions } from '~redux/slices/modalSlice'
 import { RootState } from '~redux/store'
 
 const actions = {
   ...authActions,
+  ...modalActions,
 }
 
 export const useRedux = () => {
@@ -15,8 +17,8 @@ export const useRedux = () => {
     return bindActionCreators(actions, dispatch)
   }
 
-  const getState = (name: keyof RootState) => {
-    return selector[name]
+  const getState = () => {
+    return selector
   }
 
   return {
