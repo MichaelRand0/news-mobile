@@ -12,6 +12,7 @@ import Auth from '~modules/Auth'
 import { useRedux } from '~hooks/redux'
 import Modal from '~shared/modals/Modal'
 import { useAuth } from '~hooks/auth'
+import Profile from '~shared/Profile'
 
 const Layout = () => {
   const Stack = createNativeStackNavigator()
@@ -37,11 +38,7 @@ const Layout = () => {
               backgroundColor: colors.lightWhite,
             },
             title: '',
-            headerLeft: () => (
-              <ButtonMain>
-                <Text style={{ fontSize: 18, color: 'white' }}>Пользователь</Text>
-              </ButtonMain>
-            ),
+            headerLeft: () => <Profile user={user} />,
             headerRight: () => (
               <ButtonMain onPress={async () => await logoutAsync()} variant="ORANGE">
                 <Text style={{ fontSize: 18, color: 'white' }}>Выйти</Text>
