@@ -1,4 +1,4 @@
-import { NavigationContainer, useNavigation } from '@react-navigation/native'
+import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 import { StyleSheet, Text } from 'react-native'
@@ -11,31 +11,28 @@ import ButtonMain from '~shared/buttons/ButtonMain'
 import Auth from '~modules/Auth'
 import { useRedux } from '~hooks/redux'
 import Modal from '~shared/modals/Modal'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useAuth } from '~hooks/auth'
 
 const Layout = () => {
   const Stack = createNativeStackNavigator()
-  const { getState } = useRedux()
+  const { getState, getActions } = useRedux()
+  const { setUser } = getActions()
   const { user } = getState().auth
+  const { getAsyncUser, logoutAsync } = useAuth()
+  useEffect(() => {
+    const setAsyncUser = async () => {
+      const userData = await getAsyncUser()
+      setUser(userData)
+    }
+    setAsyncUser()
+  }, [])
   return (
     <NavigationContainer>
       <SafeAreaView style={styles.container}>
         <Stack.Navigator
-          initialRouteName="Auth"
-          screenListeners={({ navigation }) => ({
-            state: async () => {
-              const data = await AsyncStorage?.getItem('user')
-              const user = JSON.parse(data ?? '')
-              if (user) {
-                navigation.navigate('Home')
-              } else {
-                navigation.navigate('Auth')
-              }
-            },
-          })}
           screenOptions={{
             headerShadowVisible: false,
-            headerShown: user?.token ? true : false,
+            headerShown: user?.id ? true : false,
             headerStyle: {
               backgroundColor: colors.lightWhite,
             },
@@ -46,14 +43,17 @@ const Layout = () => {
               </ButtonMain>
             ),
             headerRight: () => (
-              <ButtonMain variant="ORANGE">
+              <ButtonMain onPress={async () => await logoutAsync()} variant="ORANGE">
                 <Text style={{ fontSize: 18, color: 'white' }}>Выйти</Text>
               </ButtonMain>
             ),
           }}
         >
-          <Stack.Screen name="Auth" component={Auth} />
-          <Stack.Screen name="Home" component={Home} />
+          {user ? (
+            <Stack.Screen name="Home" component={Home} />
+          ) : (
+            <Stack.Screen name="Auth" component={Auth} />
+          )}
         </Stack.Navigator>
       </SafeAreaView>
     </NavigationContainer>
