@@ -1,15 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import { StyleSheet, Text } from 'react-native'
+import React from 'react'
 import Container from '~shared/Container'
 import InputMain from '~shared/inputs/InputMain'
 import colors from '~constants/colors'
-import { Controller, Form, useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import ButtonMain from '~shared/buttons/ButtonMain'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useQuery } from '~hooks/query'
 import { useEndpoint } from '~hooks/endpoint'
 import { useModal } from '~hooks/modal'
+import { NavigationProp } from '@react-navigation/native'
+import { useRedux } from '~hooks/redux'
+
+interface Props {
+  navigation: NavigationProp<any>
+}
 
 const schema = yup
   .object()
@@ -19,7 +25,8 @@ const schema = yup
   })
   .required()
 
-const Auth = () => {
+const Auth = (props: Props) => {
+  const { navigation } = props
   const {
     control,
     handleSubmit,
@@ -35,26 +42,35 @@ const Auth = () => {
 
   const { getEndpoint } = useEndpoint()
 
-  const params = {
-    email: getValues().email,
-    password: getValues().password,
-  }
-
   const { isLoading, fetchData } = useQuery()
-  const {changeContent} = useModal()
+  const { changeContent } = useModal()
+  const {getActions} = useRedux()
+  const {setUser} = getActions()
 
   // useEffect(() => {
   //   console.log('isLoading', isLoading)
   // }, [isLoading])
 
   const onSubmit = async () => {
-    const data:any = await fetchData(getEndpoint('auth'), params)
-    console.log('data232', data?.success == false)
-    if(data?.success == false) {
+    const params = {
+      email: getValues().email,
+      password: getValues().password,
+    }
+
+    changeContent({
+      type: 'LOADING',
+    })
+
+    const data: any = await fetchData(getEndpoint('auth'), params)
+    if (data?.success == false) {
       changeContent({
         type: 'ERROR',
-        message: data?.errors?.[0]
+        message: data?.errors?.[0],
       })
+    } else {
+      setUser(data?.user)
+      changeContent(null)
+      navigation.navigate('Home')
     }
   }
   return (

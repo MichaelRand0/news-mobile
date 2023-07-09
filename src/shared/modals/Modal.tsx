@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useEffect } from 'react'
 import colors from '~constants/colors'
 import ModalError from './components/ModalError'
@@ -19,6 +19,7 @@ const Modal = () => {
       style={[styles.container, { display: content === null ? 'none' : 'flex' }]}
     >
       {content?.type === 'ERROR' ? <ModalError message={content?.message ?? ''} /> : ''}
+      {content?.type === 'LOADING' ? <ActivityIndicator size='large' /> : ''}
     </TouchableOpacity>
   )
 }

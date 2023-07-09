@@ -1,6 +1,6 @@
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
@@ -11,16 +11,28 @@ import ButtonMain from '~shared/buttons/ButtonMain'
 import Auth from '~modules/Auth'
 import { useRedux } from '~hooks/redux'
 import Modal from '~shared/modals/Modal'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Layout = () => {
   const Stack = createNativeStackNavigator()
   const { getState } = useRedux()
-  const { user } = getState('auth')
+  const { user } = getState().auth
   return (
     <NavigationContainer>
       <SafeAreaView style={styles.container}>
         <Stack.Navigator
           initialRouteName="Auth"
+          screenListeners={({ navigation }) => ({
+            state: async () => {
+              const data = await AsyncStorage?.getItem('user')
+              const user = JSON.parse(data ?? '')
+              if (user) {
+                navigation.navigate('Home')
+              } else {
+                navigation.navigate('Auth')
+              }
+            },
+          })}
           screenOptions={{
             headerShadowVisible: false,
             headerShown: user?.token ? true : false,

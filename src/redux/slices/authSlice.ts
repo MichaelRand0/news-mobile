@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { User } from '~models/user'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 interface IState {
   user: User
@@ -15,6 +16,7 @@ const authSlice = createSlice({
   reducers: {
     setUser(state, action: PayloadAction<User>) {
       state.user = action.payload
+      AsyncStorage.setItem('user', JSON.stringify(action.payload))
     },
   },
 })
