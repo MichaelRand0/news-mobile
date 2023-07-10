@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { NewsItem } from '~models/news'
+import { NewsItemType } from '~models/news'
 
 interface IState {
-  news: NewsItem[]
-  currentNews: NewsItem | null
+  news: NewsItemType[]
+  currentNews: NewsItemType | null
 }
 
 const initialState: IState = {
@@ -15,8 +15,11 @@ const newsSlice = createSlice({
   name: 'news',
   initialState,
   reducers: {
-    setNews(state, action: PayloadAction<NewsItem>) {
+    setNews(state, action: PayloadAction<NewsItemType[]>) {
       state.news = action.payload
+    },
+    setCurrentNews(state, action: PayloadAction<NewsItemType>) {
+      state.currentNews = action.payload
     },
   },
 })

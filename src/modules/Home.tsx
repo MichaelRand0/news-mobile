@@ -6,8 +6,14 @@ import { useNews } from '~hooks/news'
 import { useRedux } from '~hooks/redux'
 import NewsItem from './components/news/NewsItem'
 import { useModal } from '~hooks/modal'
+import { NavigationProp } from '@react-navigation/native'
 
-const Home = () => {
+interface Props {
+  navigation: NavigationProp<any>
+}
+
+const Home = (props: Props) => {
+  const {navigation} = props
   const { getNews } = useNews()
   const { getActions, getState } = useRedux()
   const { setNews } = getActions()
@@ -34,7 +40,7 @@ const Home = () => {
       <FlatList
         onEndReached={onEndReached}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => <NewsItem data={item} />}
+        renderItem={({ item }) => <NewsItem navigation={navigation} data={item} />}
         data={news}
         ItemSeparatorComponent={() => <View style={{ height: 25 }} />}
       />

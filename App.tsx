@@ -13,6 +13,7 @@ import { useRedux } from '~hooks/redux'
 import Modal from '~shared/modals/Modal'
 import { useAuth } from '~hooks/auth'
 import Profile from '~shared/Profile'
+import News from '~modules/News'
 
 const Layout = () => {
   const Stack = createNativeStackNavigator()
@@ -47,7 +48,10 @@ const Layout = () => {
           }}
         >
           {user ? (
-            <Stack.Screen name="Home" component={Home} />
+            <Stack.Group>
+              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="News" component={News} />
+            </Stack.Group>
           ) : (
             <Stack.Screen name="Auth" component={Auth} />
           )}

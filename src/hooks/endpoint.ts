@@ -3,7 +3,7 @@ import { Endpoint } from '~models/query'
 type EndpointName = 'auth' | 'news' | 'newsItem'
 
 export const useEndpoint = () => {
-  const getEndpoint = (name: EndpointName): Endpoint => {
+  const getEndpoint = (name: EndpointName, params?: any): Endpoint => {
     switch (name) {
       case 'auth':
         return {
@@ -14,6 +14,12 @@ export const useEndpoint = () => {
       case 'news':
         return {
           url: 'news',
+          method: 'GET',
+        }
+
+      case 'newsItem':
+        return {
+          url: `news/${params?.id}`,
           method: 'GET',
         }
       default:
