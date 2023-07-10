@@ -44,8 +44,8 @@ const Auth = (props: Props) => {
 
   const { isLoading, fetchData } = useQuery()
   const { changeContent } = useModal()
-  const {getActions} = useRedux()
-  const {setUser} = getActions()
+  const { getActions } = useRedux()
+  const { setUser } = getActions()
 
   // useEffect(() => {
   //   console.log('isLoading', isLoading)
@@ -61,14 +61,18 @@ const Auth = (props: Props) => {
       type: 'LOADING',
     })
 
-    const data: any = await fetchData(getEndpoint('auth'), params)
+    const res: any = await fetchData(getEndpoint('auth'), params)
+    const { data } = res
     if (data?.success == false) {
       changeContent({
         type: 'ERROR',
         message: data?.errors?.[0],
       })
     } else {
-      setUser(data?.user)
+      setUser({
+        ...data?.user,
+        token: res?.headers?.authorization,
+      })
       changeContent(null)
       navigation.navigate('Home')
     }

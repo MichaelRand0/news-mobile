@@ -2,11 +2,13 @@ import { bindActionCreators } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 import { authActions } from '~redux/slices/authSlice'
 import { modalActions } from '~redux/slices/modalSlice'
+import { newsActions } from '~redux/slices/newsSlice'
 import { RootState } from '~redux/store'
 
 const actions = {
   ...authActions,
   ...modalActions,
+  ...newsActions,
 }
 
 export const useRedux = () => {

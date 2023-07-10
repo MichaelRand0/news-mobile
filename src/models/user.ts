@@ -25,6 +25,7 @@ export type User = {
   user_week_incoming_likes_count: number
   username: string
   vacation_days: number
+  token: string
 } | null
 
 export type UserLikeStatus = {
