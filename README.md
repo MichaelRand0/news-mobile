@@ -13,7 +13,7 @@ https://github.com/MichaelRand0/news-mobile/assets/61416895/d1284dce-0a1b-4d71-8
 <h2>Основные используемые технологии:</h2>
 <ul>
   <h3>Frontend:</h3>
-  <li>React Native</li>
+  <li>React Native(cli, без expo)</li>
   <li>TypeScript</li>
   <li>Redux Toolkit</li>
   <li>React Navigator</li>
