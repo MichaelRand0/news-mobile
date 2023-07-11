@@ -25,6 +25,7 @@ https://github.com/MichaelRand0/news-mobile/assets/61416895/d1284dce-0a1b-4d71-8
   <li>Работа с API через Apisauce</li>
   <li>Работа со store через Redux-Toolkit</li>
   <li>Роутинг через React Navigator</li>
+  <li>Типизация проекта через TypeScript</li>
   <li>Простая авторизация с сохранением данных в AsyncStorage</li>
   <li>Работа с формами через react-hook-form</li>
   <li>Валидация форм через yup</li>
