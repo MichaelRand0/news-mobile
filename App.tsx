@@ -9,22 +9,22 @@ import colors from '~constants/colors'
 import Home from '~modules/Home'
 import ButtonMain from '~shared/buttons/ButtonMain'
 import Auth from '~modules/Auth'
-import { useRedux } from '~hooks/redux'
 import Modal from '~shared/modals/Modal'
 import { useAuth } from '~hooks/auth'
 import Profile from '~shared/Profile'
 import News from '~modules/News'
+import getAsyncUser from 'helpers/getAsyncUser'
 
 const Layout = () => {
   const Stack = createNativeStackNavigator()
-  const { getState, getActions } = useRedux()
-  const { setUser } = getActions()
-  const { user } = getState().auth
-  const { getAsyncUser, logoutAsync } = useAuth()
+  const { actions, state } = useAuth()
+  const { setUser } = actions
+  const { user } = state
+  const { logoutAsync } = useAuth()
   useEffect(() => {
     const setAsyncUser = async () => {
       const userData = await getAsyncUser()
-      setUser(userData)
+      setUser(JSON.parse(userData ?? ''))
     }
     setAsyncUser()
   }, [])

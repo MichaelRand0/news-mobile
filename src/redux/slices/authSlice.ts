@@ -15,7 +15,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<User>) {
-      state.user = action.payload
+      state.user = JSON.parse(JSON.stringify(action.payload))
       AsyncStorage.setItem('user', JSON.stringify(action.payload))
     },
   },

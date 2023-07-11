@@ -2,14 +2,14 @@ import { create } from 'apisauce'
 import { useState } from 'react'
 import urls from '~constants/urls'
 import { Endpoint } from '~models/query'
-import { useRedux } from './redux'
+import { useAuth } from './auth'
 
 export const useQuery = () => {
   const [data, setData] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const { getState } = useRedux()
-  const { user } = getState().auth
+  const { state } = useAuth()
+  const { user } = state
   const api = create({
     baseURL: urls.base,
     headers: {

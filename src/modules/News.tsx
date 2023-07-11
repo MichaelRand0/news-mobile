@@ -18,7 +18,7 @@ const News = (props: Props) => {
   }
   return (
     <View style={styles.container}>
-      <Image style={styles.img} source={{ uri: currentNews?.image_url }} />
+      {currentNews?.image_url && <Image style={styles.img} source={{ uri: currentNews?.image_url }} />}
       <Container>
         <Text style={styles.title}>{currentNews?.title}</Text>
         <Text style={styles.text}>{currentNews?.short_text}</Text>

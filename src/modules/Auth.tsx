@@ -11,7 +11,7 @@ import { useQuery } from '~hooks/query'
 import { useEndpoint } from '~hooks/endpoint'
 import { useModal } from '~hooks/modal'
 import { NavigationProp } from '@react-navigation/native'
-import { useRedux } from '~hooks/redux'
+import { useAuth } from '~hooks/auth'
 
 interface Props {
   navigation: NavigationProp<any>
@@ -42,14 +42,10 @@ const Auth = (props: Props) => {
 
   const { getEndpoint } = useEndpoint()
 
-  const { isLoading, fetchData } = useQuery()
+  const { fetchData } = useQuery()
   const { changeContent } = useModal()
-  const { getActions } = useRedux()
-  const { setUser } = getActions()
-
-  // useEffect(() => {
-  //   console.log('isLoading', isLoading)
-  // }, [isLoading])
+  const { actions } = useAuth()
+  const { setUser } = actions
 
   const onSubmit = async () => {
     const params = {

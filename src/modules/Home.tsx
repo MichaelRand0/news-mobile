@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import Container from '~shared/Container'
 import colors from '~constants/colors'
 import { useNews } from '~hooks/news'
-import { useRedux } from '~hooks/redux'
 import NewsItem from './components/news/NewsItem'
 import { useModal } from '~hooks/modal'
 import { NavigationProp } from '@react-navigation/native'
@@ -13,11 +12,10 @@ interface Props {
 }
 
 const Home = (props: Props) => {
-  const {navigation} = props
-  const { getNews } = useNews()
-  const { getActions, getState } = useRedux()
-  const { setNews } = getActions()
-  const { news } = getState().news
+  const { navigation } = props
+  const { getNews, actions, state } = useNews()
+  const { setNews } = actions
+  const { news } = state
   const { changeContent } = useModal()
 
   useEffect(() => {

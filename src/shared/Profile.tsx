@@ -11,7 +11,7 @@ const Profile = (props: Props) => {
   const {user} = props
   return (
     <View style={styles.container}>
-      <Image style={styles.avatar} source={{uri: user?.avatar_url}} />
+      {user?.avatar_url && <Image style={styles.avatar} source={{uri: user?.avatar_url}} />}
       <Text style={styles.name}>{user?.username}</Text>
     </View>
   )

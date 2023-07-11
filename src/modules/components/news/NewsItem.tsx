@@ -4,9 +4,9 @@ import colors from '~constants/colors'
 import { NewsItemType } from '~models/news'
 import { useQuery } from '~hooks/query'
 import { useEndpoint } from '~hooks/endpoint'
-import { useRedux } from '~hooks/redux'
 import { NavigationProp } from '@react-navigation/native'
 import { useModal } from '~hooks/modal'
+import { useNews } from '~hooks/news'
 
 interface Props {
   data: NewsItemType
@@ -18,8 +18,8 @@ const NewsItem = (props: Props) => {
   const { title, image_url, short_text, id } = data
   const { fetchData } = useQuery()
   const { getEndpoint } = useEndpoint()
-  const { getActions } = useRedux()
-  const { setCurrentNews } = getActions()
+  const { actions } = useNews()
+  const { setCurrentNews } = actions
   const { changeContent } = useModal()
 
   const onPress = async () => {
@@ -33,7 +33,7 @@ const NewsItem = (props: Props) => {
   }
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
-      <Image style={styles.img} source={{ uri: image_url }} />
+      {image_url && <Image style={styles.img} source={{ uri: image_url }} />}
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.text}>{short_text}</Text>
     </TouchableOpacity>
