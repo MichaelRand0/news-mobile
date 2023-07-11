@@ -101,11 +101,13 @@ const Auth = (props: Props) => {
             onChangeText={(val) => onChange(val)}
             onBlur={onBlur}
             value={value}
+            secureTextEntry={true}
+            autoCorrect={false}
           />
         )}
       />
       <ButtonMain style={{ paddingHorizontal: 50 }} onPress={handleSubmit(onSubmit)}>
-        <Text>Войти</Text>
+        <Text style={{ color: 'white' }}>Войти</Text>
       </ButtonMain>
     </Container>
   )
